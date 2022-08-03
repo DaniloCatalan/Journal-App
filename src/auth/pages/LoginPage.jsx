@@ -1,32 +1,59 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { Button, Grid, TextField, Typography, Link } from "@mui/material";
+import {
+  Button,
+  Grid,
+  TextField,
+  Typography,
+  Link,
+  Alert,
+} from "@mui/material";
 import { Google } from "@mui/icons-material";
 
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
 import {
-  checkingAuthentication,
   startGoogleSignIn,
+  startLoginWithEmailPassword,
 } from "../../store/auth/thunks";
 
+const formData = {
+  email: "danilo@catalan-it.cl",
+  password: "12345678",
+};
+
+const formValidations = {
+  email: [(value) => value.includes("@"), "El correo debe tener una @"],
+  password: [
+    (value) => value.length >= 6,
+    "El password debe de tener mas de 6 caracteres",
+  ],
+};
 export const LoginPage = () => {
-  const { status } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const { onInputChange, email, password } = useForm({
-    email: "danilo@test.cl",
-    password: "123456",
-  });
-
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  const { status, errorMessage } = useSelector((state) => state.auth);
   const isAuthenticating = useMemo(() => status === "checking", [status]);
+
+  const {
+    onInputChange,
+    email,
+    password,
+    formState,
+    isFormValid,
+    emailValid,
+    passwordValid,
+  } = useForm(formData, formValidations);
 
   const onSubmit = (event) => {
     event.preventDefault();
+    setFormSubmitted(true);
 
-    console.log({ email, password });
-    dispatch(checkingAuthentication());
+    if (!isFormValid) return;
+
+    dispatch(startLoginWithEmailPassword({ email, password }));
   };
 
   const onGoogleSignIn = () => {
@@ -36,7 +63,7 @@ export const LoginPage = () => {
 
   return (
     <AuthLayout title="Login">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} className="animate__animated animate_fadeIn animate_faster">
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
@@ -47,6 +74,8 @@ export const LoginPage = () => {
               name="email"
               value={email}
               onChange={onInputChange}
+              error={!!emailValid && formSubmitted}
+              helperText={emailValid}
             />
           </Grid>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -58,10 +87,15 @@ export const LoginPage = () => {
               name="password"
               value={password}
               onChange={onInputChange}
+              error={!!passwordValid && formSubmitted}
+              helperText={passwordValid}
             />
           </Grid>
         </Grid>
         <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
+          <Grid item xs={12} display={!!errorMessage ? "" : "none"}>
+            <Alert severity="error">{errorMessage}</Alert>
+          </Grid>
           <Grid item xs={12} sm={6}>
             <Button
               disabled={isAuthenticating}
