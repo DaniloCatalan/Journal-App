@@ -19,8 +19,8 @@ import {
 } from "../../store/auth/thunks";
 
 const formData = {
-  email: "danilo@catalan-it.cl",
-  password: "12345678",
+  email: "",
+  password: "",
 };
 
 const formValidations = {

@@ -8,7 +8,7 @@ export const NavBar = ({ drawerWidth = 240 }) => {
 
   const onLogout = () => {
     console.log("onlogout");
-    dispatch(startLogout);
+    dispatch(startLogout());
   };
 
   return (
