@@ -1,6 +1,6 @@
-import { useSelector } from "react-redux";
-import { Box, Divider, Drawer, List, Toolbar, Typography } from "@mui/material";
-import { SideBarItem } from "./SideBarItem";
+import { useSelector } from 'react-redux';
+import { Box, Divider, Drawer, List, Toolbar, Typography } from '@mui/material';
+import { SideBarItem } from './SideBarItem';
 
 export const SideBar = ({ drawerWidth }) => {
   const { displayName } = useSelector((state) => state.auth);
@@ -8,22 +8,22 @@ export const SideBar = ({ drawerWidth }) => {
 
   return (
     <Box
-      component={"nav"}
+      component={'nav'}
       sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
     >
       <Drawer
         variant="permanent"
         open
         sx={{
-          display: { xs: "block" },
-          "& .MuiDrawer-paper": {
-            MozBoxSizing: "border-box",
+          display: { xs: 'block' },
+          '& .MuiDrawer-paper': {
+            MozBoxSizing: 'border-box',
             width: drawerWidth,
           },
         }}
       >
         <Toolbar>
-          <Typography variant="h6" noWrap component={"div"}>
+          <Typography variant="h6" noWrap component={'div'}>
             {displayName}
           </Typography>
         </Toolbar>
