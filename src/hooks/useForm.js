@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect } from 'react';
 
 export const useForm = (initialForm = {}, formValidations = {}) => {
   const [formState, setFormState] = useState(initialForm);
@@ -7,6 +7,10 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
   useEffect(() => {
     createValidators();
   }, [formState]);
+
+  useEffect(() => {
+    setFormState(initialForm);
+  }, [initialForm]);
 
   const isFormValid = useMemo(() => {
     for (const formValue of Object.keys(formValidation)) {
