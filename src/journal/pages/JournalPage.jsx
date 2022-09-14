@@ -4,7 +4,7 @@ import { AddOutlined } from "@mui/icons-material";
 
 import { NoteView, NothingSelectedView } from "../views";
 import { JournalLayout } from "../layout/JournalLayout";
-import { starNewNote } from "../../store/journal/thunks";
+import { startNewNote } from "../../store/journal";
 import { useMemo } from "react";
 
 export const JournalPage = () => {
@@ -13,7 +13,7 @@ export const JournalPage = () => {
   const { isSaving, active } = useSelector((state) => state.journal);
 
   const onClickNewNote = () => {
-    dispatch(starNewNote());
+    dispatch(startNewNote());
   };
 
   return (
