@@ -18,11 +18,8 @@ describe('pruebas en fileUpload', () => {
 
     const url = await fileUpload(file);
     expect(typeof url).toBe('string');
-    console.log(url);
     const segments = url.split('/');
-    console.log(segments);
     const imageId = segments[segments.length - 1].replace('.jpg', '');
-    console.log(imageId);
     const cloudResp = await cloudinary.api.delete_resources(
       ['journal/' + imageId],
       {

@@ -3,9 +3,15 @@ import {
   logoutFirebase,
   regsiterUserWithEmailPassword,
   signInWithGoogle,
-} from "../../firebase/providers";
-import { clearNotesLogout } from "../journal";
-import { checkingCredentials, logout, login } from "./";
+} from '../../firebase/providers';
+import { clearNotesLogout } from '../journal';
+import { checkingCredentials, logout, login } from './';
+
+export const checkingAuthentication = () => {
+  return async (dispatch) => {
+    dispatch(checkingCredentials());
+  };
+};
 
 export const startGoogleSignIn = () => {
   return async (dispatch) => {
@@ -52,7 +58,7 @@ export const startLoginWithEmailPassword = ({ email, password }) => {
 export const startLogout = () => {
   return async (dispatch) => {
     await logoutFirebase();
-    dispatch(clearNotesLogout())
+    dispatch(clearNotesLogout());
     dispatch(logout());
   };
 };
