@@ -9,7 +9,7 @@ import {
   Link,
   Alert,
 } from '@mui/material';
-import { Google } from '@mui/icons-material';
+import { CleanHands, Google } from '@mui/icons-material';
 
 import { AuthLayout } from '../layout/AuthLayout';
 import { useForm } from '../../hooks';
@@ -65,6 +65,7 @@ export const LoginPage = () => {
       <form
         onSubmit={onSubmit}
         className="animate__animated animate__fadeIn animate__faster"
+        aria-label="submit-form"
       >
         <Grid container>
           <Grid item xs={12} sx={{ mt: 2 }}>
@@ -91,6 +92,9 @@ export const LoginPage = () => {
               onChange={onInputChange}
               error={!!passwordValid && formSubmitted}
               helperText={passwordValid}
+              inputProps={{
+                'data-testid': 'password',
+              }}
             />
           </Grid>
         </Grid>
@@ -113,6 +117,7 @@ export const LoginPage = () => {
               disabled={isAuthenticating}
               variant="contained"
               fullWidth
+              aria-label="google-btn"
               onClick={onGoogleSignIn}
             >
               <Google />
